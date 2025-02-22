@@ -724,9 +724,6 @@ set(Slicer_HAVE_QT5 1)
     endif()
   endforeach()
 
-# Always use QVTKOpenGLWidget (instead of QVTKWidget)
-set(Slicer_VTK_USE_QVTKOPENGLWIDGET 1)
-
 #-----------------------------------------------------------------------------
 # Testing
 #-----------------------------------------------------------------------------
