@@ -152,6 +152,7 @@ if((NOT DEFINED PYTHON_INCLUDE_DIR
     GIT_TAG "${Slicer_${proj}_GIT_TAG}"
     SOURCE_DIR ${EP_SOURCE_DIR}
     BINARY_DIR ${EP_BINARY_DIR}
+    PATCH_COMMAND git apply "${CMAKE_CURRENT_LIST_DIR}/0001-Fix-building-python-on-arm64-macos.patch"
     CMAKE_CACHE_ARGS
       -DCMAKE_CXX_COMPILER:FILEPATH=${CMAKE_CXX_COMPILER}
       #-DCMAKE_CXX_FLAGS:STRING=${ep_common_cxx_flags} # Not used
