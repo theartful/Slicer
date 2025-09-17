@@ -82,6 +82,8 @@ if(NOT DEFINED CTK_DIR AND NOT Slicer_USE_SYSTEM_${proj})
     ${${proj}_EP_ARGS}
     GIT_REPOSITORY "${Slicer_${proj}_GIT_REPOSITORY}"
     GIT_TAG "${Slicer_${proj}_GIT_TAG}"
+    PATCH_COMMAND git reset --hard &&
+                  git apply "${CMAKE_CURRENT_LIST_DIR}/0001-Patch-PythonQt-to-not-wrap-QDtls-when-on-macOS.patch"
     SOURCE_DIR ${EP_SOURCE_DIR}
     BINARY_DIR ${EP_BINARY_DIR}
     CMAKE_CACHE_ARGS

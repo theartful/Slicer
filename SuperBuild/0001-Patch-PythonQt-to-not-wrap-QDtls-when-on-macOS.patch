@@ -1,0 +1,830 @@
+From 7118e099682f84ec1bc74906262d94bfea177e30 Mon Sep 17 00:00:00 2001
+From: Ahmed Essam <ahmed.essam@brightskiesinc.com>
+Date: Wed, 17 Sep 2025 13:30:18 +0300
+Subject: [PATCH] Patch PythonQt to not wrap QDtls when on macOS
+
+---
+ ...-as-it-s-not-provided-by-qt-homebrew.patch | 787 ++++++++++++++++++
+ CMakeExternals/PythonQt.cmake                 |   6 +
+ 2 files changed, 793 insertions(+)
+ create mode 100644 CMakeExternals/0001-Don-t-wrap-QDtls-as-it-s-not-provided-by-qt-homebrew.patch
+
+diff --git a/CMakeExternals/0001-Don-t-wrap-QDtls-as-it-s-not-provided-by-qt-homebrew.patch b/CMakeExternals/0001-Don-t-wrap-QDtls-as-it-s-not-provided-by-qt-homebrew.patch
+new file mode 100644
+index 00000000..7e38a2e1
+--- /dev/null
++++ b/CMakeExternals/0001-Don-t-wrap-QDtls-as-it-s-not-provided-by-qt-homebrew.patch
+@@ -0,0 +1,787 @@
++From 4c687522d9922a9b8d383177531f1a126ea1bbe3 Mon Sep 17 00:00:00 2001
++From: Ahmed Essam <ahmed.essam@brightskiesinc.com>
++Date: Wed, 17 Sep 2025 13:21:00 +0300
++Subject: [PATCH] Don't wrap QDtls as it's not provided by qt homebrew on macOS
++
++---
++ .../com_trolltech_qt_network0.cpp             | 492 ------------------
++ .../com_trolltech_qt_network0.h               | 131 -----
++ .../com_trolltech_qt_network1.cpp             |  21 -
++ .../com_trolltech_qt_network1.h               |   8 -
++ .../com_trolltech_qt_network_init.cpp         |   3 -
++ 5 files changed, 655 deletions(-)
++
++diff --git a/generated_cpp_515/com_trolltech_qt_network/com_trolltech_qt_network0.cpp b/generated_cpp_515/com_trolltech_qt_network/com_trolltech_qt_network0.cpp
++index d76ebc1..a35c9e8 100644
++--- a/generated_cpp_515/com_trolltech_qt_network/com_trolltech_qt_network0.cpp
+++++ b/generated_cpp_515/com_trolltech_qt_network/com_trolltech_qt_network0.cpp
++@@ -12,7 +12,6 @@
++ #include <qdatetime.h>
++ #include <qdeadlinetimer.h>
++ #include <qdnslookup.h>
++-#include <qdtls.h>
++ #include <qhostaddress.h>
++ #include <qhostinfo.h>
++ #include <qhstspolicy.h>
++@@ -2128,497 +2127,6 @@ QList<QByteArray >  PythonQtWrapper_QDnsTextRecord::values(QDnsTextRecord* theWr
++   return ( theWrappedObject->values());
++ }
++ 
++-
++-
++-PythonQtShell_QDtls::~PythonQtShell_QDtls() {
++-  PythonQtPrivate* priv = PythonQt::priv();
++-  if (priv) { priv->shellClassDeleted(this); }
++-}
++-void PythonQtShell_QDtls::childEvent(QChildEvent*  event0)
++-{
++-if (_wrapper) {
++-  PYTHONQT_GIL_SCOPE
++-  if (Py_REFCNT((PyObject*)_wrapper) > 0) {
++-    static PyObject* name = PyString_FromString("childEvent");
++-    PyObject* obj = PyBaseObject_Type.tp_getattro((PyObject*)_wrapper, name);
++-    if (obj) {
++-      static const char* argumentList[] ={"" , "QChildEvent*"};
++-      static const PythonQtMethodInfo* methodInfo = PythonQtMethodInfo::getCachedMethodInfoFromArgumentList(2, argumentList);
++-      void* args[2] = {nullptr, (void*)&event0};
++-      PyObject* result = PythonQtSignalTarget::call(obj, methodInfo, args, true);
++-      if (result) { Py_DECREF(result); }
++-      Py_DECREF(obj);
++-      return;
++-    } else {
++-      PyErr_Clear();
++-    }
++-  }
++-}
++-  QDtls::childEvent(event0);
++-}
++-void PythonQtShell_QDtls::customEvent(QEvent*  event0)
++-{
++-if (_wrapper) {
++-  PYTHONQT_GIL_SCOPE
++-  if (Py_REFCNT((PyObject*)_wrapper) > 0) {
++-    static PyObject* name = PyString_FromString("customEvent");
++-    PyObject* obj = PyBaseObject_Type.tp_getattro((PyObject*)_wrapper, name);
++-    if (obj) {
++-      static const char* argumentList[] ={"" , "QEvent*"};
++-      static const PythonQtMethodInfo* methodInfo = PythonQtMethodInfo::getCachedMethodInfoFromArgumentList(2, argumentList);
++-      void* args[2] = {nullptr, (void*)&event0};
++-      PyObject* result = PythonQtSignalTarget::call(obj, methodInfo, args, true);
++-      if (result) { Py_DECREF(result); }
++-      Py_DECREF(obj);
++-      return;
++-    } else {
++-      PyErr_Clear();
++-    }
++-  }
++-}
++-  QDtls::customEvent(event0);
++-}
++-bool  PythonQtShell_QDtls::event(QEvent*  event0)
++-{
++-if (_wrapper) {
++-  PYTHONQT_GIL_SCOPE
++-  if (Py_REFCNT((PyObject*)_wrapper) > 0) {
++-    static PyObject* name = PyString_FromString("event");
++-    PyObject* obj = PyBaseObject_Type.tp_getattro((PyObject*)_wrapper, name);
++-    if (obj) {
++-      static const char* argumentList[] ={"bool" , "QEvent*"};
++-      static const PythonQtMethodInfo* methodInfo = PythonQtMethodInfo::getCachedMethodInfoFromArgumentList(2, argumentList);
++-      bool returnValue{};
++-      void* args[2] = {nullptr, (void*)&event0};
++-      PyObject* result = PythonQtSignalTarget::call(obj, methodInfo, args, true);
++-      if (result) {
++-        args[0] = PythonQtConv::ConvertPythonToQt(methodInfo->parameters().at(0), result, false, nullptr, &returnValue);
++-        if (args[0]!=&returnValue) {
++-          if (args[0]==nullptr) {
++-            PythonQt::priv()->handleVirtualOverloadReturnError("event", methodInfo, result);
++-          } else {
++-            returnValue = *((bool*)args[0]);
++-          }
++-        }
++-      }
++-      if (result) { Py_DECREF(result); }
++-      Py_DECREF(obj);
++-      return returnValue;
++-    } else {
++-      PyErr_Clear();
++-    }
++-  }
++-}
++-  return QDtls::event(event0);
++-}
++-bool  PythonQtShell_QDtls::eventFilter(QObject*  watched0, QEvent*  event1)
++-{
++-if (_wrapper) {
++-  PYTHONQT_GIL_SCOPE
++-  if (Py_REFCNT((PyObject*)_wrapper) > 0) {
++-    static PyObject* name = PyString_FromString("eventFilter");
++-    PyObject* obj = PyBaseObject_Type.tp_getattro((PyObject*)_wrapper, name);
++-    if (obj) {
++-      static const char* argumentList[] ={"bool" , "QObject*" , "QEvent*"};
++-      static const PythonQtMethodInfo* methodInfo = PythonQtMethodInfo::getCachedMethodInfoFromArgumentList(3, argumentList);
++-      bool returnValue{};
++-      void* args[3] = {nullptr, (void*)&watched0, (void*)&event1};
++-      PyObject* result = PythonQtSignalTarget::call(obj, methodInfo, args, true);
++-      if (result) {
++-        args[0] = PythonQtConv::ConvertPythonToQt(methodInfo->parameters().at(0), result, false, nullptr, &returnValue);
++-        if (args[0]!=&returnValue) {
++-          if (args[0]==nullptr) {
++-            PythonQt::priv()->handleVirtualOverloadReturnError("eventFilter", methodInfo, result);
++-          } else {
++-            returnValue = *((bool*)args[0]);
++-          }
++-        }
++-      }
++-      if (result) { Py_DECREF(result); }
++-      Py_DECREF(obj);
++-      return returnValue;
++-    } else {
++-      PyErr_Clear();
++-    }
++-  }
++-}
++-  return QDtls::eventFilter(watched0, event1);
++-}
++-void PythonQtShell_QDtls::timerEvent(QTimerEvent*  event0)
++-{
++-if (_wrapper) {
++-  PYTHONQT_GIL_SCOPE
++-  if (Py_REFCNT((PyObject*)_wrapper) > 0) {
++-    static PyObject* name = PyString_FromString("timerEvent");
++-    PyObject* obj = PyBaseObject_Type.tp_getattro((PyObject*)_wrapper, name);
++-    if (obj) {
++-      static const char* argumentList[] ={"" , "QTimerEvent*"};
++-      static const PythonQtMethodInfo* methodInfo = PythonQtMethodInfo::getCachedMethodInfoFromArgumentList(2, argumentList);
++-      void* args[2] = {nullptr, (void*)&event0};
++-      PyObject* result = PythonQtSignalTarget::call(obj, methodInfo, args, true);
++-      if (result) { Py_DECREF(result); }
++-      Py_DECREF(obj);
++-      return;
++-    } else {
++-      PyErr_Clear();
++-    }
++-  }
++-}
++-  QDtls::timerEvent(event0);
++-}
++-QDtls* PythonQtWrapper_QDtls::new_QDtls(QSslSocket::SslMode  mode, QObject*  parent)
++-{ 
++-return new PythonQtShell_QDtls(mode, parent); }
++-
++-const QMetaObject* PythonQtShell_QDtls::metaObject() const {
++-  if (QObject::d_ptr->metaObject) {
++-    return QObject::d_ptr->dynamicMetaObject();
++-  } else if (_wrapper) {
++-    return PythonQt::priv()->getDynamicMetaObject(_wrapper, &QDtls::staticMetaObject);
++-  } else {
++-    return &QDtls::staticMetaObject;
++-  }
++-}
++-int PythonQtShell_QDtls::qt_metacall(QMetaObject::Call call, int id, void** args) {
++-  int result = QDtls::qt_metacall(call, id, args);
++-  return result >= 0 ? PythonQt::priv()->handleMetaCall(this, _wrapper, call, id, args) : result;
++-}
++-bool  PythonQtWrapper_QDtls::abortHandshake(QDtls* theWrappedObject, QUdpSocket*  socket)
++-{
++-  return ( theWrappedObject->abortHandshake(socket));
++-}
++-
++-QDtlsClientVerifier::GeneratorParameters  PythonQtWrapper_QDtls::cookieGeneratorParameters(QDtls* theWrappedObject) const
++-{
++-  return ( theWrappedObject->cookieGeneratorParameters());
++-}
++-
++-QByteArray  PythonQtWrapper_QDtls::decryptDatagram(QDtls* theWrappedObject, QUdpSocket*  socket, const QByteArray&  dgram)
++-{
++-  return ( theWrappedObject->decryptDatagram(socket, dgram));
++-}
++-
++-bool  PythonQtWrapper_QDtls::doHandshake(QDtls* theWrappedObject, QUdpSocket*  socket, const QByteArray&  dgram)
++-{
++-  return ( theWrappedObject->doHandshake(socket, dgram));
++-}
++-
++-QSslConfiguration  PythonQtWrapper_QDtls::dtlsConfiguration(QDtls* theWrappedObject) const
++-{
++-  return ( theWrappedObject->dtlsConfiguration());
++-}
++-
++-QDtlsError  PythonQtWrapper_QDtls::dtlsError(QDtls* theWrappedObject) const
++-{
++-  return ( theWrappedObject->dtlsError());
++-}
++-
++-QString  PythonQtWrapper_QDtls::dtlsErrorString(QDtls* theWrappedObject) const
++-{
++-  return ( theWrappedObject->dtlsErrorString());
++-}
++-
++-bool  PythonQtWrapper_QDtls::handleTimeout(QDtls* theWrappedObject, QUdpSocket*  socket)
++-{
++-  return ( theWrappedObject->handleTimeout(socket));
++-}
++-
++-QDtls::HandshakeState  PythonQtWrapper_QDtls::handshakeState(QDtls* theWrappedObject) const
++-{
++-  return ( theWrappedObject->handshakeState());
++-}
++-
++-void PythonQtWrapper_QDtls::ignoreVerificationErrors(QDtls* theWrappedObject, const QVector<QSslError >&  errorsToIgnore)
++-{
++-  ( theWrappedObject->ignoreVerificationErrors(errorsToIgnore));
++-}
++-
++-bool  PythonQtWrapper_QDtls::isConnectionEncrypted(QDtls* theWrappedObject) const
++-{
++-  return ( theWrappedObject->isConnectionEncrypted());
++-}
++-
++-unsigned short  PythonQtWrapper_QDtls::mtuHint(QDtls* theWrappedObject) const
++-{
++-  return ( theWrappedObject->mtuHint());
++-}
++-
++-QHostAddress  PythonQtWrapper_QDtls::peerAddress(QDtls* theWrappedObject) const
++-{
++-  return ( theWrappedObject->peerAddress());
++-}
++-
++-unsigned short  PythonQtWrapper_QDtls::peerPort(QDtls* theWrappedObject) const
++-{
++-  return ( theWrappedObject->peerPort());
++-}
++-
++-QVector<QSslError >  PythonQtWrapper_QDtls::peerVerificationErrors(QDtls* theWrappedObject) const
++-{
++-  return ( theWrappedObject->peerVerificationErrors());
++-}
++-
++-QString  PythonQtWrapper_QDtls::peerVerificationName(QDtls* theWrappedObject) const
++-{
++-  return ( theWrappedObject->peerVerificationName());
++-}
++-
++-bool  PythonQtWrapper_QDtls::resumeHandshake(QDtls* theWrappedObject, QUdpSocket*  socket)
++-{
++-  return ( theWrappedObject->resumeHandshake(socket));
++-}
++-
++-QSslCipher  PythonQtWrapper_QDtls::sessionCipher(QDtls* theWrappedObject) const
++-{
++-  return ( theWrappedObject->sessionCipher());
++-}
++-
++-QSsl::SslProtocol  PythonQtWrapper_QDtls::sessionProtocol(QDtls* theWrappedObject) const
++-{
++-  return ( theWrappedObject->sessionProtocol());
++-}
++-
++-bool  PythonQtWrapper_QDtls::setCookieGeneratorParameters(QDtls* theWrappedObject, const QDtlsClientVerifier::GeneratorParameters&  params)
++-{
++-  return ( theWrappedObject->setCookieGeneratorParameters(params));
++-}
++-
++-bool  PythonQtWrapper_QDtls::setDtlsConfiguration(QDtls* theWrappedObject, const QSslConfiguration&  configuration)
++-{
++-  return ( theWrappedObject->setDtlsConfiguration(configuration));
++-}
++-
++-void PythonQtWrapper_QDtls::setMtuHint(QDtls* theWrappedObject, unsigned short  mtuHint)
++-{
++-  ( theWrappedObject->setMtuHint(mtuHint));
++-}
++-
++-bool  PythonQtWrapper_QDtls::setPeer(QDtls* theWrappedObject, const QHostAddress&  address, unsigned short  port, const QString&  verificationName)
++-{
++-  return ( theWrappedObject->setPeer(address, port, verificationName));
++-}
++-
++-bool  PythonQtWrapper_QDtls::setPeerVerificationName(QDtls* theWrappedObject, const QString&  name)
++-{
++-  return ( theWrappedObject->setPeerVerificationName(name));
++-}
++-
++-bool  PythonQtWrapper_QDtls::shutdown(QDtls* theWrappedObject, QUdpSocket*  socket)
++-{
++-  return ( theWrappedObject->shutdown(socket));
++-}
++-
++-QSslSocket::SslMode  PythonQtWrapper_QDtls::sslMode(QDtls* theWrappedObject) const
++-{
++-  return ( theWrappedObject->sslMode());
++-}
++-
++-qint64  PythonQtWrapper_QDtls::writeDatagramEncrypted(QDtls* theWrappedObject, QUdpSocket*  socket, const QByteArray&  dgram)
++-{
++-  return ( theWrappedObject->writeDatagramEncrypted(socket, dgram));
++-}
++-
++-
++-
++-PythonQtShell_QDtlsClientVerifier::~PythonQtShell_QDtlsClientVerifier() {
++-  PythonQtPrivate* priv = PythonQt::priv();
++-  if (priv) { priv->shellClassDeleted(this); }
++-}
++-void PythonQtShell_QDtlsClientVerifier::childEvent(QChildEvent*  event0)
++-{
++-if (_wrapper) {
++-  PYTHONQT_GIL_SCOPE
++-  if (Py_REFCNT((PyObject*)_wrapper) > 0) {
++-    static PyObject* name = PyString_FromString("childEvent");
++-    PyObject* obj = PyBaseObject_Type.tp_getattro((PyObject*)_wrapper, name);
++-    if (obj) {
++-      static const char* argumentList[] ={"" , "QChildEvent*"};
++-      static const PythonQtMethodInfo* methodInfo = PythonQtMethodInfo::getCachedMethodInfoFromArgumentList(2, argumentList);
++-      void* args[2] = {nullptr, (void*)&event0};
++-      PyObject* result = PythonQtSignalTarget::call(obj, methodInfo, args, true);
++-      if (result) { Py_DECREF(result); }
++-      Py_DECREF(obj);
++-      return;
++-    } else {
++-      PyErr_Clear();
++-    }
++-  }
++-}
++-  QDtlsClientVerifier::childEvent(event0);
++-}
++-void PythonQtShell_QDtlsClientVerifier::customEvent(QEvent*  event0)
++-{
++-if (_wrapper) {
++-  PYTHONQT_GIL_SCOPE
++-  if (Py_REFCNT((PyObject*)_wrapper) > 0) {
++-    static PyObject* name = PyString_FromString("customEvent");
++-    PyObject* obj = PyBaseObject_Type.tp_getattro((PyObject*)_wrapper, name);
++-    if (obj) {
++-      static const char* argumentList[] ={"" , "QEvent*"};
++-      static const PythonQtMethodInfo* methodInfo = PythonQtMethodInfo::getCachedMethodInfoFromArgumentList(2, argumentList);
++-      void* args[2] = {nullptr, (void*)&event0};
++-      PyObject* result = PythonQtSignalTarget::call(obj, methodInfo, args, true);
++-      if (result) { Py_DECREF(result); }
++-      Py_DECREF(obj);
++-      return;
++-    } else {
++-      PyErr_Clear();
++-    }
++-  }
++-}
++-  QDtlsClientVerifier::customEvent(event0);
++-}
++-bool  PythonQtShell_QDtlsClientVerifier::event(QEvent*  event0)
++-{
++-if (_wrapper) {
++-  PYTHONQT_GIL_SCOPE
++-  if (Py_REFCNT((PyObject*)_wrapper) > 0) {
++-    static PyObject* name = PyString_FromString("event");
++-    PyObject* obj = PyBaseObject_Type.tp_getattro((PyObject*)_wrapper, name);
++-    if (obj) {
++-      static const char* argumentList[] ={"bool" , "QEvent*"};
++-      static const PythonQtMethodInfo* methodInfo = PythonQtMethodInfo::getCachedMethodInfoFromArgumentList(2, argumentList);
++-      bool returnValue{};
++-      void* args[2] = {nullptr, (void*)&event0};
++-      PyObject* result = PythonQtSignalTarget::call(obj, methodInfo, args, true);
++-      if (result) {
++-        args[0] = PythonQtConv::ConvertPythonToQt(methodInfo->parameters().at(0), result, false, nullptr, &returnValue);
++-        if (args[0]!=&returnValue) {
++-          if (args[0]==nullptr) {
++-            PythonQt::priv()->handleVirtualOverloadReturnError("event", methodInfo, result);
++-          } else {
++-            returnValue = *((bool*)args[0]);
++-          }
++-        }
++-      }
++-      if (result) { Py_DECREF(result); }
++-      Py_DECREF(obj);
++-      return returnValue;
++-    } else {
++-      PyErr_Clear();
++-    }
++-  }
++-}
++-  return QDtlsClientVerifier::event(event0);
++-}
++-bool  PythonQtShell_QDtlsClientVerifier::eventFilter(QObject*  watched0, QEvent*  event1)
++-{
++-if (_wrapper) {
++-  PYTHONQT_GIL_SCOPE
++-  if (Py_REFCNT((PyObject*)_wrapper) > 0) {
++-    static PyObject* name = PyString_FromString("eventFilter");
++-    PyObject* obj = PyBaseObject_Type.tp_getattro((PyObject*)_wrapper, name);
++-    if (obj) {
++-      static const char* argumentList[] ={"bool" , "QObject*" , "QEvent*"};
++-      static const PythonQtMethodInfo* methodInfo = PythonQtMethodInfo::getCachedMethodInfoFromArgumentList(3, argumentList);
++-      bool returnValue{};
++-      void* args[3] = {nullptr, (void*)&watched0, (void*)&event1};
++-      PyObject* result = PythonQtSignalTarget::call(obj, methodInfo, args, true);
++-      if (result) {
++-        args[0] = PythonQtConv::ConvertPythonToQt(methodInfo->parameters().at(0), result, false, nullptr, &returnValue);
++-        if (args[0]!=&returnValue) {
++-          if (args[0]==nullptr) {
++-            PythonQt::priv()->handleVirtualOverloadReturnError("eventFilter", methodInfo, result);
++-          } else {
++-            returnValue = *((bool*)args[0]);
++-          }
++-        }
++-      }
++-      if (result) { Py_DECREF(result); }
++-      Py_DECREF(obj);
++-      return returnValue;
++-    } else {
++-      PyErr_Clear();
++-    }
++-  }
++-}
++-  return QDtlsClientVerifier::eventFilter(watched0, event1);
++-}
++-void PythonQtShell_QDtlsClientVerifier::timerEvent(QTimerEvent*  event0)
++-{
++-if (_wrapper) {
++-  PYTHONQT_GIL_SCOPE
++-  if (Py_REFCNT((PyObject*)_wrapper) > 0) {
++-    static PyObject* name = PyString_FromString("timerEvent");
++-    PyObject* obj = PyBaseObject_Type.tp_getattro((PyObject*)_wrapper, name);
++-    if (obj) {
++-      static const char* argumentList[] ={"" , "QTimerEvent*"};
++-      static const PythonQtMethodInfo* methodInfo = PythonQtMethodInfo::getCachedMethodInfoFromArgumentList(2, argumentList);
++-      void* args[2] = {nullptr, (void*)&event0};
++-      PyObject* result = PythonQtSignalTarget::call(obj, methodInfo, args, true);
++-      if (result) { Py_DECREF(result); }
++-      Py_DECREF(obj);
++-      return;
++-    } else {
++-      PyErr_Clear();
++-    }
++-  }
++-}
++-  QDtlsClientVerifier::timerEvent(event0);
++-}
++-QDtlsClientVerifier* PythonQtWrapper_QDtlsClientVerifier::new_QDtlsClientVerifier(QObject*  parent)
++-{ 
++-return new PythonQtShell_QDtlsClientVerifier(parent); }
++-
++-const QMetaObject* PythonQtShell_QDtlsClientVerifier::metaObject() const {
++-  if (QObject::d_ptr->metaObject) {
++-    return QObject::d_ptr->dynamicMetaObject();
++-  } else if (_wrapper) {
++-    return PythonQt::priv()->getDynamicMetaObject(_wrapper, &QDtlsClientVerifier::staticMetaObject);
++-  } else {
++-    return &QDtlsClientVerifier::staticMetaObject;
++-  }
++-}
++-int PythonQtShell_QDtlsClientVerifier::qt_metacall(QMetaObject::Call call, int id, void** args) {
++-  int result = QDtlsClientVerifier::qt_metacall(call, id, args);
++-  return result >= 0 ? PythonQt::priv()->handleMetaCall(this, _wrapper, call, id, args) : result;
++-}
++-QDtlsClientVerifier::GeneratorParameters  PythonQtWrapper_QDtlsClientVerifier::cookieGeneratorParameters(QDtlsClientVerifier* theWrappedObject) const
++-{
++-  return ( theWrappedObject->cookieGeneratorParameters());
++-}
++-
++-QDtlsError  PythonQtWrapper_QDtlsClientVerifier::dtlsError(QDtlsClientVerifier* theWrappedObject) const
++-{
++-  return ( theWrappedObject->dtlsError());
++-}
++-
++-QString  PythonQtWrapper_QDtlsClientVerifier::dtlsErrorString(QDtlsClientVerifier* theWrappedObject) const
++-{
++-  return ( theWrappedObject->dtlsErrorString());
++-}
++-
++-bool  PythonQtWrapper_QDtlsClientVerifier::setCookieGeneratorParameters(QDtlsClientVerifier* theWrappedObject, const QDtlsClientVerifier::GeneratorParameters&  params)
++-{
++-  return ( theWrappedObject->setCookieGeneratorParameters(params));
++-}
++-
++-QByteArray  PythonQtWrapper_QDtlsClientVerifier::verifiedHello(QDtlsClientVerifier* theWrappedObject) const
++-{
++-  return ( theWrappedObject->verifiedHello());
++-}
++-
++-bool  PythonQtWrapper_QDtlsClientVerifier::verifyClient(QDtlsClientVerifier* theWrappedObject, QUdpSocket*  socket, const QByteArray&  dgram, const QHostAddress&  address, unsigned short  port)
++-{
++-  return ( theWrappedObject->verifyClient(socket, dgram, address, port));
++-}
++-
++-
++-
++-PythonQtShell_QDtlsClientVerifier__GeneratorParameters::~PythonQtShell_QDtlsClientVerifier__GeneratorParameters() {
++-  PythonQtPrivate* priv = PythonQt::priv();
++-  if (priv) { priv->shellClassDeleted(this); }
++-}
++-QDtlsClientVerifier::GeneratorParameters* PythonQtWrapper_QDtlsClientVerifier__GeneratorParameters::new_QDtlsClientVerifier__GeneratorParameters()
++-{ 
++-return new PythonQtShell_QDtlsClientVerifier__GeneratorParameters(); }
++-
++-QDtlsClientVerifier::GeneratorParameters* PythonQtWrapper_QDtlsClientVerifier__GeneratorParameters::new_QDtlsClientVerifier__GeneratorParameters(QCryptographicHash::Algorithm  a, const QByteArray&  s)
++-{ 
++-return new PythonQtShell_QDtlsClientVerifier__GeneratorParameters(a, s); }
++-
++-
++-
++ QHostAddress* PythonQtWrapper_QHostAddress::new_QHostAddress()
++ { 
++ return new QHostAddress(); }
++diff --git a/generated_cpp_515/com_trolltech_qt_network/com_trolltech_qt_network0.h b/generated_cpp_515/com_trolltech_qt_network/com_trolltech_qt_network0.h
++index 0ad581f..9a8f2c5 100644
++--- a/generated_cpp_515/com_trolltech_qt_network/com_trolltech_qt_network0.h
+++++ b/generated_cpp_515/com_trolltech_qt_network/com_trolltech_qt_network0.h
++@@ -11,7 +11,6 @@
++ #include <qdatetime.h>
++ #include <qdeadlinetimer.h>
++ #include <qdnslookup.h>
++-#include <qdtls.h>
++ #include <qhostaddress.h>
++ #include <qhostinfo.h>
++ #include <qhstspolicy.h>
++@@ -443,136 +442,6 @@ void delete_QDnsTextRecord(QDnsTextRecord* obj) { delete obj; }
++ 
++ 
++ 
++-
++-class PythonQtShell_QDtls : public QDtls
++-{
++-public:
++-    PythonQtShell_QDtls(QSslSocket::SslMode  mode, QObject*  parent = nullptr):QDtls(mode, parent),_wrapper(nullptr) {};
++-
++-   ~PythonQtShell_QDtls() override;
++-
++-void childEvent(QChildEvent*  event) override;
++-void customEvent(QEvent*  event) override;
++-bool  event(QEvent*  event) override;
++-bool  eventFilter(QObject*  watched, QEvent*  event) override;
++-void timerEvent(QTimerEvent*  event) override;
++-
++-  const QMetaObject* metaObject() const override;
++-  int qt_metacall(QMetaObject::Call call, int id, void** args) override;
++-  PythonQtInstanceWrapper* _wrapper;
++-};
++-
++-class PythonQtWrapper_QDtls : public QObject
++-{ Q_OBJECT
++-public:
++-Q_ENUMS(HandshakeState )
++-enum HandshakeState{
++-  HandshakeNotStarted = QDtls::HandshakeNotStarted,   HandshakeInProgress = QDtls::HandshakeInProgress,   PeerVerificationFailed = QDtls::PeerVerificationFailed,   HandshakeComplete = QDtls::HandshakeComplete};
++-public slots:
++-QDtls* new_QDtls(QSslSocket::SslMode  mode, QObject*  parent = nullptr);
++-void delete_QDtls(QDtls* obj) { delete obj; }
++-   bool  abortHandshake(QDtls* theWrappedObject, QUdpSocket*  socket);
++-   QDtlsClientVerifier::GeneratorParameters  cookieGeneratorParameters(QDtls* theWrappedObject) const;
++-   QByteArray  decryptDatagram(QDtls* theWrappedObject, QUdpSocket*  socket, const QByteArray&  dgram);
++-   bool  doHandshake(QDtls* theWrappedObject, QUdpSocket*  socket, const QByteArray&  dgram = {});
++-   QSslConfiguration  dtlsConfiguration(QDtls* theWrappedObject) const;
++-   QDtlsError  dtlsError(QDtls* theWrappedObject) const;
++-   QString  dtlsErrorString(QDtls* theWrappedObject) const;
++-   bool  handleTimeout(QDtls* theWrappedObject, QUdpSocket*  socket);
++-   QDtls::HandshakeState  handshakeState(QDtls* theWrappedObject) const;
++-   void ignoreVerificationErrors(QDtls* theWrappedObject, const QVector<QSslError >&  errorsToIgnore);
++-   bool  isConnectionEncrypted(QDtls* theWrappedObject) const;
++-   unsigned short  mtuHint(QDtls* theWrappedObject) const;
++-   QHostAddress  peerAddress(QDtls* theWrappedObject) const;
++-   unsigned short  peerPort(QDtls* theWrappedObject) const;
++-   QVector<QSslError >  peerVerificationErrors(QDtls* theWrappedObject) const;
++-   QString  peerVerificationName(QDtls* theWrappedObject) const;
++-   bool  resumeHandshake(QDtls* theWrappedObject, QUdpSocket*  socket);
++-   QSslCipher  sessionCipher(QDtls* theWrappedObject) const;
++-   QSsl::SslProtocol  sessionProtocol(QDtls* theWrappedObject) const;
++-   bool  setCookieGeneratorParameters(QDtls* theWrappedObject, const QDtlsClientVerifier::GeneratorParameters&  params);
++-   bool  setDtlsConfiguration(QDtls* theWrappedObject, const QSslConfiguration&  configuration);
++-   void setMtuHint(QDtls* theWrappedObject, unsigned short  mtuHint);
++-   bool  setPeer(QDtls* theWrappedObject, const QHostAddress&  address, unsigned short  port, const QString&  verificationName = {});
++-   bool  setPeerVerificationName(QDtls* theWrappedObject, const QString&  name);
++-   bool  shutdown(QDtls* theWrappedObject, QUdpSocket*  socket);
++-   QSslSocket::SslMode  sslMode(QDtls* theWrappedObject) const;
++-   qint64  writeDatagramEncrypted(QDtls* theWrappedObject, QUdpSocket*  socket, const QByteArray&  dgram);
++-};
++-
++-
++-
++-
++-
++-class PythonQtShell_QDtlsClientVerifier : public QDtlsClientVerifier
++-{
++-public:
++-    PythonQtShell_QDtlsClientVerifier(QObject*  parent = nullptr):QDtlsClientVerifier(parent),_wrapper(nullptr) {};
++-
++-   ~PythonQtShell_QDtlsClientVerifier() override;
++-
++-void childEvent(QChildEvent*  event) override;
++-void customEvent(QEvent*  event) override;
++-bool  event(QEvent*  event) override;
++-bool  eventFilter(QObject*  watched, QEvent*  event) override;
++-void timerEvent(QTimerEvent*  event) override;
++-
++-  const QMetaObject* metaObject() const override;
++-  int qt_metacall(QMetaObject::Call call, int id, void** args) override;
++-  PythonQtInstanceWrapper* _wrapper;
++-};
++-
++-class PythonQtWrapper_QDtlsClientVerifier : public QObject
++-{ Q_OBJECT
++-public:
++-public slots:
++-QDtlsClientVerifier* new_QDtlsClientVerifier(QObject*  parent = nullptr);
++-void delete_QDtlsClientVerifier(QDtlsClientVerifier* obj) { delete obj; }
++-   QDtlsClientVerifier::GeneratorParameters  cookieGeneratorParameters(QDtlsClientVerifier* theWrappedObject) const;
++-   QDtlsError  dtlsError(QDtlsClientVerifier* theWrappedObject) const;
++-   QString  dtlsErrorString(QDtlsClientVerifier* theWrappedObject) const;
++-   bool  setCookieGeneratorParameters(QDtlsClientVerifier* theWrappedObject, const QDtlsClientVerifier::GeneratorParameters&  params);
++-   QByteArray  verifiedHello(QDtlsClientVerifier* theWrappedObject) const;
++-   bool  verifyClient(QDtlsClientVerifier* theWrappedObject, QUdpSocket*  socket, const QByteArray&  dgram, const QHostAddress&  address, unsigned short  port);
++-};
++-
++-
++-
++-
++-
++-class PythonQtShell_QDtlsClientVerifier__GeneratorParameters : public QDtlsClientVerifier::GeneratorParameters
++-{
++-public:
++-    PythonQtShell_QDtlsClientVerifier__GeneratorParameters():QDtlsClientVerifier::GeneratorParameters(),_wrapper(nullptr) {};
++-    PythonQtShell_QDtlsClientVerifier__GeneratorParameters(QCryptographicHash::Algorithm  a, const QByteArray&  s):QDtlsClientVerifier::GeneratorParameters(a, s),_wrapper(nullptr) {};
++-
++-   ~PythonQtShell_QDtlsClientVerifier__GeneratorParameters();
++-
++-
++-  PythonQtInstanceWrapper* _wrapper;
++-};
++-
++-class PythonQtWrapper_QDtlsClientVerifier__GeneratorParameters : public QObject
++-{ Q_OBJECT
++-public:
++-public slots:
++-QDtlsClientVerifier::GeneratorParameters* new_QDtlsClientVerifier__GeneratorParameters();
++-QDtlsClientVerifier::GeneratorParameters* new_QDtlsClientVerifier__GeneratorParameters(QCryptographicHash::Algorithm  a, const QByteArray&  s);
++-QDtlsClientVerifier::GeneratorParameters* new_QDtlsClientVerifier__GeneratorParameters(const QDtlsClientVerifier::GeneratorParameters& other) {
++-PythonQtShell_QDtlsClientVerifier__GeneratorParameters* a = new PythonQtShell_QDtlsClientVerifier__GeneratorParameters();
++-*((QDtlsClientVerifier::GeneratorParameters*)a) = other;
++-return a; }
++-void delete_QDtlsClientVerifier__GeneratorParameters(QDtlsClientVerifier::GeneratorParameters* obj) { delete obj; }
++-void py_set_hash(QDtlsClientVerifier::GeneratorParameters* theWrappedObject, QCryptographicHash::Algorithm  hash){ theWrappedObject->hash = hash; }
++-QCryptographicHash::Algorithm  py_get_hash(QDtlsClientVerifier::GeneratorParameters* theWrappedObject){ return theWrappedObject->hash; }
++-void py_set_secret(QDtlsClientVerifier::GeneratorParameters* theWrappedObject, QByteArray  secret){ theWrappedObject->secret = secret; }
++-QByteArray  py_get_secret(QDtlsClientVerifier::GeneratorParameters* theWrappedObject){ return theWrappedObject->secret; }
++-};
++-
++-
++-
++-
++-
++ class PythonQtWrapper_QHostAddress : public QObject
++ { Q_OBJECT
++ public:
++diff --git a/generated_cpp_515/com_trolltech_qt_network/com_trolltech_qt_network1.cpp b/generated_cpp_515/com_trolltech_qt_network/com_trolltech_qt_network1.cpp
++index 32a477d..8f2b46f 100644
++--- a/generated_cpp_515/com_trolltech_qt_network/com_trolltech_qt_network1.cpp
+++++ b/generated_cpp_515/com_trolltech_qt_network/com_trolltech_qt_network1.cpp
++@@ -8,7 +8,6 @@
++ #include <qbytearray.h>
++ #include <qcoreevent.h>
++ #include <qdatetime.h>
++-#include <qdtls.h>
++ #include <qhostaddress.h>
++ #include <qhttp2configuration.h>
++ #include <qiodevice.h>
++@@ -2282,21 +2281,11 @@ QSslConfiguration  PythonQtWrapper_QSslConfiguration::static_QSslConfiguration_d
++   return (QSslConfiguration::defaultConfiguration());
++ }
++ 
++-QSslConfiguration  PythonQtWrapper_QSslConfiguration::static_QSslConfiguration_defaultDtlsConfiguration()
++-{
++-  return (QSslConfiguration::defaultDtlsConfiguration());
++-}
++-
++ QSslDiffieHellmanParameters  PythonQtWrapper_QSslConfiguration::diffieHellmanParameters(QSslConfiguration* theWrappedObject) const
++ {
++   return ( theWrappedObject->diffieHellmanParameters());
++ }
++ 
++-bool  PythonQtWrapper_QSslConfiguration::dtlsCookieVerificationEnabled(QSslConfiguration* theWrappedObject) const
++-{
++-  return ( theWrappedObject->dtlsCookieVerificationEnabled());
++-}
++-
++ QVector<QSslEllipticCurve >  PythonQtWrapper_QSslConfiguration::ellipticCurves(QSslConfiguration* theWrappedObject) const
++ {
++   return ( theWrappedObject->ellipticCurves());
++@@ -2437,21 +2426,11 @@ void PythonQtWrapper_QSslConfiguration::static_QSslConfiguration_setDefaultConfi
++   (QSslConfiguration::setDefaultConfiguration(configuration));
++ }
++ 
++-void PythonQtWrapper_QSslConfiguration::static_QSslConfiguration_setDefaultDtlsConfiguration(const QSslConfiguration&  configuration)
++-{
++-  (QSslConfiguration::setDefaultDtlsConfiguration(configuration));
++-}
++-
++ void PythonQtWrapper_QSslConfiguration::setDiffieHellmanParameters(QSslConfiguration* theWrappedObject, const QSslDiffieHellmanParameters&  dhparams)
++ {
++   ( theWrappedObject->setDiffieHellmanParameters(dhparams));
++ }
++ 
++-void PythonQtWrapper_QSslConfiguration::setDtlsCookieVerificationEnabled(QSslConfiguration* theWrappedObject, bool  enable)
++-{
++-  ( theWrappedObject->setDtlsCookieVerificationEnabled(enable));
++-}
++-
++ void PythonQtWrapper_QSslConfiguration::setEllipticCurves(QSslConfiguration* theWrappedObject, const QVector<QSslEllipticCurve >&  curves)
++ {
++   ( theWrappedObject->setEllipticCurves(curves));
++diff --git a/generated_cpp_515/com_trolltech_qt_network/com_trolltech_qt_network1.h b/generated_cpp_515/com_trolltech_qt_network/com_trolltech_qt_network1.h
++index f7ffb4d..b8886f1 100644
++--- a/generated_cpp_515/com_trolltech_qt_network/com_trolltech_qt_network1.h
+++++ b/generated_cpp_515/com_trolltech_qt_network/com_trolltech_qt_network1.h
++@@ -6,7 +6,6 @@
++ #include <qbytearray.h>
++ #include <qcoreevent.h>
++ #include <qdatetime.h>
++-#include <qdtls.h>
++ #include <qhostaddress.h>
++ #include <qhttp2configuration.h>
++ #include <qiodevice.h>
++@@ -634,9 +633,7 @@ void delete_QSslConfiguration(QSslConfiguration* obj) { delete obj; }
++    QList<QSslCertificate >  caCertificates(QSslConfiguration* theWrappedObject) const;
++    QList<QSslCipher >  ciphers(QSslConfiguration* theWrappedObject) const;
++    QSslConfiguration  static_QSslConfiguration_defaultConfiguration();
++-   QSslConfiguration  static_QSslConfiguration_defaultDtlsConfiguration();
++    QSslDiffieHellmanParameters  diffieHellmanParameters(QSslConfiguration* theWrappedObject) const;
++-   bool  dtlsCookieVerificationEnabled(QSslConfiguration* theWrappedObject) const;
++    QVector<QSslEllipticCurve >  ellipticCurves(QSslConfiguration* theWrappedObject) const;
++    QSslKey  ephemeralServerKey(QSslConfiguration* theWrappedObject) const;
++    bool  isNull(QSslConfiguration* theWrappedObject) const;
++@@ -665,9 +662,7 @@ void delete_QSslConfiguration(QSslConfiguration* obj) { delete obj; }
++    void setCaCertificates(QSslConfiguration* theWrappedObject, const QList<QSslCertificate >&  certificates);
++    void setCiphers(QSslConfiguration* theWrappedObject, const QList<QSslCipher >&  ciphers);
++    void static_QSslConfiguration_setDefaultConfiguration(const QSslConfiguration&  configuration);
++-   void static_QSslConfiguration_setDefaultDtlsConfiguration(const QSslConfiguration&  configuration);
++    void setDiffieHellmanParameters(QSslConfiguration* theWrappedObject, const QSslDiffieHellmanParameters&  dhparams);
++-   void setDtlsCookieVerificationEnabled(QSslConfiguration* theWrappedObject, bool  enable);
++    void setEllipticCurves(QSslConfiguration* theWrappedObject, const QVector<QSslEllipticCurve >&  curves);
++    void setLocalCertificate(QSslConfiguration* theWrappedObject, const QSslCertificate&  certificate);
++    void setLocalCertificateChain(QSslConfiguration* theWrappedObject, const QList<QSslCertificate >&  localChain);
++@@ -1198,9 +1193,6 @@ void delete_QUdpSocket(QUdpSocket* obj) { delete obj; }
++ class PythonQtWrapper_QtNetwork : public QObject
++ { Q_OBJECT
++ public:
++-Q_ENUMS(QDtlsError QOcspCertificateStatus QOcspRevocationReason )
++-enum class QDtlsError{
++-  NoError = static_cast<int>(::QDtlsError::NoError),   InvalidInputParameters = static_cast<int>(::QDtlsError::InvalidInputParameters),   InvalidOperation = static_cast<int>(::QDtlsError::InvalidOperation),   UnderlyingSocketError = static_cast<int>(::QDtlsError::UnderlyingSocketError),   RemoteClosedConnectionError = static_cast<int>(::QDtlsError::RemoteClosedConnectionError),   PeerVerificationError = static_cast<int>(::QDtlsError::PeerVerificationError),   TlsInitializationError = static_cast<int>(::QDtlsError::TlsInitializationError),   TlsFatalError = static_cast<int>(::QDtlsError::TlsFatalError),   TlsNonFatalError = static_cast<int>(::QDtlsError::TlsNonFatalError)};
++ enum class QOcspCertificateStatus{
++   Good = static_cast<int>(::QOcspCertificateStatus::Good),   Revoked = static_cast<int>(::QOcspCertificateStatus::Revoked),   Unknown = static_cast<int>(::QOcspCertificateStatus::Unknown)};
++ enum class QOcspRevocationReason{
++diff --git a/generated_cpp_515/com_trolltech_qt_network/com_trolltech_qt_network_init.cpp b/generated_cpp_515/com_trolltech_qt_network/com_trolltech_qt_network_init.cpp
++index fd46f39..9dde7ae 100644
++--- a/generated_cpp_515/com_trolltech_qt_network/com_trolltech_qt_network_init.cpp
+++++ b/generated_cpp_515/com_trolltech_qt_network/com_trolltech_qt_network_init.cpp
++@@ -15,9 +15,6 @@ PythonQt::priv()->registerClass(&QDnsLookup::staticMetaObject, "QtNetwork", Pyth
++ PythonQt::priv()->registerCPPClass("QDnsMailExchangeRecord", "", "QtNetwork", PythonQtCreateObject<PythonQtWrapper_QDnsMailExchangeRecord>, nullptr, module, 0);
++ PythonQt::priv()->registerCPPClass("QDnsServiceRecord", "", "QtNetwork", PythonQtCreateObject<PythonQtWrapper_QDnsServiceRecord>, nullptr, module, 0);
++ PythonQt::priv()->registerCPPClass("QDnsTextRecord", "", "QtNetwork", PythonQtCreateObject<PythonQtWrapper_QDnsTextRecord>, nullptr, module, 0);
++-PythonQt::priv()->registerClass(&QDtls::staticMetaObject, "QtNetwork", PythonQtCreateObject<PythonQtWrapper_QDtls>, PythonQtSetInstanceWrapperOnShell<PythonQtShell_QDtls>, module, 0);
++-PythonQt::priv()->registerClass(&QDtlsClientVerifier::staticMetaObject, "QtNetwork", PythonQtCreateObject<PythonQtWrapper_QDtlsClientVerifier>, PythonQtSetInstanceWrapperOnShell<PythonQtShell_QDtlsClientVerifier>, module, 0);
++-PythonQt::priv()->registerCPPClass("QDtlsClientVerifier::GeneratorParameters", "", "QtNetwork", PythonQtCreateObject<PythonQtWrapper_QDtlsClientVerifier__GeneratorParameters>, PythonQtSetInstanceWrapperOnShell<PythonQtShell_QDtlsClientVerifier__GeneratorParameters>, module, 0);
++ PythonQt::priv()->registerCPPClass("QHostAddress", "", "QtNetwork", PythonQtCreateObject<PythonQtWrapper_QHostAddress>, nullptr, module, PythonQt::Type_NonZero|PythonQt::Type_RichCompare);
++ PythonQt::priv()->registerCPPClass("QHostInfo", "", "QtNetwork", PythonQtCreateObject<PythonQtWrapper_QHostInfo>, nullptr, module, 0);
++ PythonQt::priv()->registerCPPClass("QHstsPolicy", "", "QtNetwork", PythonQtCreateObject<PythonQtWrapper_QHstsPolicy>, nullptr, module, PythonQt::Type_RichCompare);
++-- 
++2.51.0
++
+diff --git a/CMakeExternals/PythonQt.cmake b/CMakeExternals/PythonQt.cmake
+index d439686d..ceaea960 100644
+--- a/CMakeExternals/PythonQt.cmake
++++ b/CMakeExternals/PythonQt.cmake
+@@ -102,12 +102,18 @@ if(NOT DEFINED PYTHONQT_INSTALL_DIR)
+                       GIT_TAG ${revision_tag})
+   endif()
+ 
++  set(patch_args )
++  if(APPLE)
++    set(patch_args PATCH_COMMAND git reset --hard && git apply "${CMAKE_CURRENT_LIST_DIR}/0001-Don-t-wrap-QDtls-as-it-s-not-provided-by-qt-homebrew.patch")
++  endif()
++
+   ExternalProject_Add(${proj}
+     ${${proj}_EXTERNAL_PROJECT_ARGS}
+     SOURCE_DIR ${CMAKE_BINARY_DIR}/${proj}
+     BINARY_DIR ${proj}-build
+     PREFIX ${proj}${ep_suffix}
+     ${location_args}
++    ${patch_args}
+     BUILD_COMMAND ""
+     CMAKE_CACHE_ARGS
+       ${ep_common_cache_args}
+-- 
+2.51.0
+

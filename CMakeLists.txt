@@ -566,7 +566,7 @@ endif()
 set(Slicer_DEFAULT_VTK_SMP_IMPLEMENTATION_TYPE "TBB")
 
 # FIXME: "External_tbb.cmake" currenly only downloads x86 binaries (there are no official arm64 binaries).
-if((APPLE AND "arm64" IN_LIST CMAKE_OSX_ARCHITECTURES) OR (NOT APPLE AND CMAKE_SYSTEM_PROCESSOR STREQUAL "arm64"))
+if(CMAKE_SYSTEM_PROCESSOR STREQUAL "arm64")
   set(Slicer_DEFAULT_VTK_SMP_IMPLEMENTATION_TYPE "Sequential")
 endif()
 

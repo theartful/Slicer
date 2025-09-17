@@ -48,7 +48,8 @@ if((NOT DEFINED LibFFI_INCLUDE_DIR
     GIT_TAG "${Slicer_${proj}_GIT_TAG}"
     SOURCE_DIR ${EP_SOURCE_DIR}
     BINARY_DIR ${EP_BINARY_DIR}
-    PATCH_COMMAND git apply "${CMAKE_CURRENT_LIST_DIR}/0001-Move-cfi_startproc-after-CNAME-label.patch"
+    PATCH_COMMAND git reset --hard &&
+                  git apply "${CMAKE_CURRENT_LIST_DIR}/0001-Move-cfi_startproc-after-CNAME-label.patch"
     INSTALL_DIR ${EP_INSTALL_DIR}
     CMAKE_CACHE_ARGS
       # Compiler settings
