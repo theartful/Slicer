@@ -564,6 +564,12 @@ endif()
 
 # Slicer build is only tested with Sequential and TBB. OpenMP might work.
 set(Slicer_DEFAULT_VTK_SMP_IMPLEMENTATION_TYPE "TBB")
+
+# FIXME: "External_tbb.cmake" currenly only downloads x86 binaries (there are no official arm64 binaries).
+if((APPLE AND "arm64" IN_LIST CMAKE_OSX_ARCHITECTURES) OR (NOT APPLE AND CMAKE_SYSTEM_PROCESSOR STREQUAL "arm64"))
+  set(Slicer_DEFAULT_VTK_SMP_IMPLEMENTATION_TYPE "Sequential")
+endif()
+
 set(Slicer_VTK_SMP_IMPLEMENTATION_TYPE ${Slicer_DEFAULT_VTK_SMP_IMPLEMENTATION_TYPE}
   CACHE STRING "Which multi-threaded parallelism implementation to use in VTK. Options are Sequential or TBB.")
 set_property(CACHE Slicer_VTK_SMP_IMPLEMENTATION_TYPE
